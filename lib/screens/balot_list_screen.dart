@@ -89,7 +89,7 @@ class _BalotListScreenState extends State<BalotListScreen> {
       });
     } catch (e) {
       setState(() {
-        _currentPage--; // Revertir el incremento de página si hay error
+        _currentPage--;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error al cargar más películas: $e")),
@@ -155,8 +155,8 @@ class _BalotListScreenState extends State<BalotListScreen> {
                   ),
             ),
             if (_isLoading)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: CircularProgressIndicator(),
               ),
           ],
@@ -215,7 +215,7 @@ class _BalotListScreenState extends State<BalotListScreen> {
       itemCount: _filteredMovies.length,
       itemBuilder: (context, index) {
         final movie = _filteredMovies[index];
-        return _buildMovieCard(movie, starColor, cardColor);
+        return _buildGridCard(movie, starColor, cardColor);
       },
     );
   }
@@ -227,12 +227,12 @@ class _BalotListScreenState extends State<BalotListScreen> {
       itemCount: _filteredMovies.length,
       itemBuilder: (context, index) {
         final movie = _filteredMovies[index];
-        return _buildMovieCard(movie, starColor, cardColor);
+        return _buildListCard(movie, starColor, cardColor);
       },
     );
   }
 
-  Widget _buildMovieCard(Movie movie, Color starColor, Color cardColor) {
+  Widget _buildGridCard(Movie movie, Color starColor, Color cardColor) {
     return GestureDetector(
       onTap: () => _navigateToDetails(movie),
       child: Card(
@@ -244,7 +244,7 @@ class _BalotListScreenState extends State<BalotListScreen> {
               child: CachedNetworkImage(
                 imageUrl: movie.posterPath,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Center(
+                placeholder: (context, url) => const Center(
                   child: CircularProgressIndicator(),
                 ),
                 errorWidget: (context, url, error) => const Icon(
@@ -282,6 +282,96 @@ class _BalotListScreenState extends State<BalotListScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListCard(Movie movie, Color starColor, Color cardColor) {
+    return Card(
+      color: cardColor,
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      child: InkWell(
+        onTap: () => _navigateToDetails(movie),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 80,
+                  height: 120,
+                  child: CachedNetworkImage(
+                    imageUrl: movie.posterPath,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.image_not_supported,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      movie.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      movie.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey[300]
+                            : Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: starColor, size: 18),
+                        const SizedBox(width: 4),
+                        Text(
+                          movie.voteAverage.toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          movie.releaseDate,
+                          style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.grey[300]
+                                : Colors.grey[600],
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
