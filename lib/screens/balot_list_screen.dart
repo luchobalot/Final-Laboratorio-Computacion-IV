@@ -172,7 +172,7 @@ class _BalotListScreenState extends State<BalotListScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Mejores Películas',
+            'Películas más relevantes',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
           ),
         ],

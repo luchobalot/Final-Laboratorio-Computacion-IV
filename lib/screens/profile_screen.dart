@@ -43,7 +43,7 @@ class HeaderProfile extends StatelessWidget {
       child: Center(
         child: CircleAvatar(
           radius: 100,
-          backgroundImage: AssetImage('assets/images/avatar.png'),
+          backgroundImage: AssetImage('assets/images/avatar.jpg'),
           backgroundColor: Colors.white,
         ),
       ),
