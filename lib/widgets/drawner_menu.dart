@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import '../screens/favorites_screen.dart';  // Asegúrate de importar la pantalla de favoritos
 
 class DrawerMenu extends StatelessWidget {
   final List<Map<String, String>> _menuItems = <Map<String, String>>[
     {'route': 'home', 'title': 'Home', 'subtitle': 'Home + counter app'},
-    {'route': 'custom_list', 'title': 'Custom list', 'subtitle': ''},
-    {'route': 'profile', 'title': 'Perfil usuario', 'subtitle': ''},
-    {'route': 'jugadores_list','title': 'Jugadores list','subtitle': 'Ir a la lista de Jugadores'},
-    {'route': 'balot_list', 'title': 'Balot list', 'subtitle': 'Mejores Películas 2024'},
+    {'route': 'profile', 'title': 'Mi Perfil', 'subtitle': ''},
+    {'route': 'balot_list', 'title': 'Peliculas', 'subtitle': 'Peliculas más relevantes 2025'},
+    {'route': 'favorites_screen', 'title': 'Peliculas Favoritas', 'subtitle': 'Tus películas favoritas'},
   ];
 
   DrawerMenu({super.key});
@@ -21,28 +21,48 @@ class DrawerMenu extends StatelessWidget {
           ...ListTile.divideTiles(
               context: context,
               tiles: _menuItems
-                  .map((item) => ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 10),
-                        dense: true,
-                        minLeadingWidth: 25,
-                        iconColor: Colors.blueGrey,
-                        title: Text(item['title']!,
-                            style: const TextStyle(fontFamily: 'FuzzyBubbles')),
-                        subtitle: Text(
-                            item['subtitle']!.isEmpty
-                                ? 'Tap to go to ${item['title']}'
-                                : item['subtitle']!,
-                            style: const TextStyle(
-                                fontFamily: 'RobotoMono', fontSize: 11)),
-                        leading: const Icon(Icons.arrow_right),
-                        /* trailing: const Icon(Icons.arrow_right), */
-                        onTap: () {
-                          Navigator.pop(context);
-                          //Navigator.pushReplacementNamed(context, item['route']!);
-                          Navigator.pushNamed(context, item['route']!);
-                        },
-                      ))
+                  .map((item) {
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 10),
+                      dense: true,
+                      minLeadingWidth: 25,
+                      iconColor: Colors.blueGrey,
+                      title: Text(item['title']!,
+                          style: const TextStyle(fontFamily: 'FuzzyBubbles')),
+                      subtitle: Text(
+                          item['subtitle']!.isEmpty
+                              ? 'Tap to go to ${item['title']}'
+                              : item['subtitle']!,
+                          style: const TextStyle(
+                              fontFamily: 'RobotoMono', fontSize: 11)),
+                      leading: const Icon(Icons.arrow_right),
+                      onTap: () {
+                        Navigator.pop(context);
+
+                        // Navegar según la ruta
+                        switch (item['route']) {
+                          case 'home':
+                            Navigator.pushNamed(context, 'home');
+                            break;
+                          case 'profile':
+                            Navigator.pushNamed(context, 'profile');
+                            break;
+                          case 'balot_list':
+                            Navigator.pushNamed(context, 'balot_list');
+                            break;
+                          case 'favorites_screen':  // Navegar directamente a FavoritesScreen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+                            );
+                            break;
+                          default:
+                            Navigator.pushNamed(context, 'home');
+                        }
+                      },
+                    );
+                  })
                   .toList())
         ],
       ),
