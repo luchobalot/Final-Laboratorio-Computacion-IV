@@ -31,4 +31,5 @@ Sistema de Favoritos: En esta pantalla también es posible marcar una película 
 ### Conclusión del proyecto final
 En este proyecto, realice lo siguiente:
 - Integración de una API externa (TMDB) con la aplicación Flutter a través de un servidor intermedio en Node.js.
+- Despliegue de la API con Node.js en Render.
 - Crear una aplicación con Flutter que simule una página web de películas, donde los usuarios puedan gestionar las películas favoritas de manera interactiva.
